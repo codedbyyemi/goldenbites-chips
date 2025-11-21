@@ -1,0 +1,14 @@
+.contact {
+  padding: 50px 20px;
+  text-align: center;
+}
+
+.btn-whatsapp {
+  display: inline-block;
+  margin-top: 20px;
+  background-color: #25d366;
+  color: #fff;
+  padding: 10px 25px;
+  border-radius: 5px;
+  font-weight: bold;
+}
