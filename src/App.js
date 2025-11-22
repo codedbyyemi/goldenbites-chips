@@ -1,38 +1,85 @@
 import React, { useState } from "react";
-import "./index.css"; // Tailwind CSS imported here
+import "./index.css";
 
-function App() {
+export default function App() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const navLinks = [
     { name: "Home", href: "#home" },
     { name: "Menu", href: "#menu" },
     { name: "About", href: "#about" },
+    { name: "Testimonials", href: "#testimonials" },
     { name: "Contact", href: "#contact" },
   ];
 
   const chipsMenu = [
-    { name: "Classic Salted", price: "₦500" },
-    { name: "Spicy Pepper", price: "₦600" },
-    { name: "Honey Glazed", price: "₦700" },
-    { name: "Cheese Flavored", price: "₦650" },
+    {
+      name: "Classic Salted",
+      price: "₦500",
+      image:
+        "https://images.unsplash.com/photo-1617196032774-1a15c3c1633c?auto=format&fit=crop&w=600",
+    },
+    {
+      name: "Spicy Pepper",
+      price: "₦600",
+      image:
+        "https://images.unsplash.com/photo-1614906203811-88505f30734a?auto=format&fit=crop&w=600",
+    },
+    {
+      name: "Honey Glazed",
+      price: "₦700",
+      image:
+        "https://images.unsplash.com/photo-1599785209707-fd09c63b7f61?auto=format&fit=crop&w=600",
+    },
+    {
+      name: "Cheese Flavored",
+      price: "₦650",
+      image:
+        "https://images.unsplash.com/photo-1627999831570-5c6fca0c9fd5?auto=format&fit=crop&w=600",
+    },
   ];
 
-  const whatsappNumber = "2348012345678";
+  const testimonials = [
+    {
+      name: "Amaka",
+      review:
+        "These plantain chips are insanely good! Crispy, tasty, and fresh every time.",
+      image:
+        "https://randomuser.me/api/portraits/women/44.jpg",
+    },
+    {
+      name: "Chinedu",
+      review:
+        "Golden Bites Chips are my favorite snack. I can't stop eating them!",
+      image:
+        "https://randomuser.me/api/portraits/men/46.jpg",
+    },
+    {
+      name: "Fatima",
+      review:
+        "I love the variety of flavors. The honey glazed chips are amazing!",
+      image:
+        "https://randomuser.me/api/portraits/women/68.jpg",
+    },
+  ];
+
+  const whatsappNumber = "2349073634450";
   const whatsappLink = `https://wa.me/${whatsappNumber}?text=Hello! I want to place an order for Golden Bites Chips.`;
 
   return (
-    <div className="scroll-smooth">
+    <div className="scroll-smooth font-sans bg-gray-50">
       {/* Navbar */}
-      <nav className="fixed w-full z-50 bg-yellow-500 shadow-md">
+      <nav className="fixed w-full z-50 bg-yellow-600 shadow-lg">
         <div className="max-w-7xl mx-auto px-6 flex justify-between items-center h-16">
           <div className="flex items-center">
             <img
               src="https://images.unsplash.com/photo-1623243616342-177ac6e8b1e8?auto=format&fit=crop&w=64&h=64&q=80"
               alt="Golden Bites Logo"
-              className="h-12 w-12 rounded-full mr-3"
+              className="h-12 w-12 rounded-full mr-3 border-2 border-white"
             />
-            <span className="text-white font-bold text-xl">Golden Bites Chips</span>
+            <span className="text-white font-extrabold text-xl tracking-wide">
+              Golden Bites Chips
+            </span>
           </div>
 
           <ul className="hidden md:flex space-x-8">
@@ -48,43 +95,44 @@ function App() {
             ))}
           </ul>
 
-          <div className="md:hidden">
-            <button onClick={() => setMenuOpen(!menuOpen)} className="text-white">
-              {menuOpen ? (
-                <svg
-                  className="w-6 h-6"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              ) : (
-                <svg
-                  className="w-6 h-6"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M4 6h16M4 12h16M4 18h16"
-                  />
-                </svg>
-              )}
-            </button>
-          </div>
+          <button
+            className="md:hidden text-white"
+            onClick={() => setMenuOpen(!menuOpen)}
+          >
+            {menuOpen ? (
+              <svg
+                className="w-7 h-7"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            ) : (
+              <svg
+                className="w-7 h-7"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              </svg>
+            )}
+          </button>
         </div>
 
         {menuOpen && (
-          <ul className="md:hidden bg-yellow-500 px-6 pb-4 space-y-4">
+          <ul className="md:hidden bg-yellow-600 px-6 pb-4 space-y-4">
             {navLinks.map((link, index) => (
               <li key={index}>
                 <a
@@ -100,27 +148,27 @@ function App() {
         )}
       </nav>
 
-      {/* Hero/Home Section */}
+      {/* Hero Section */}
       <section
         id="home"
-        className="h-screen bg-cover bg-center flex flex-col justify-center items-center text-center px-4"
+        className="h-screen bg-cover bg-center flex flex-col justify-center items-center text-center px-6"
         style={{
           backgroundImage:
-            "url('https://images.pexels.com/photos/5938/food-plantain-snack-chips.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')",
+            "url('https://images.unsplash.com/photo-1599785209707-fd09c63b7f61?auto=format&fit=crop&w=1260&h=750&dpr=2')",
         }}
       >
-        <div className="bg-black bg-opacity-50 p-8 rounded-lg">
-          <h1 className="text-4xl md:text-6xl font-bold text-yellow-300 mb-4">
-            Welcome to Golden Bites Chips
+        <div className="bg-black bg-opacity-60 p-10 rounded-2xl shadow-2xl max-w-2xl">
+          <h1 className="text-4xl md:text-6xl font-extrabold text-yellow-400 mb-4 drop-shadow-xl">
+            Golden Bites Chips
           </h1>
-          <p className="text-lg md:text-2xl text-white mb-6">
-            Crispy plantain chips made with love — savour every bite!
+          <p className="text-lg md:text-2xl text-gray-100 mb-6 font-medium">
+            Crispy, fresh, premium plantain chips — always made with love.
           </p>
           <a
             href={whatsappLink}
             target="_blank"
-            rel="noopener noreferrer"
-            className="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold px-6 py-3 rounded-lg shadow-lg transition-colors"
+            rel="noreferrer"
+            className="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold px-8 py-3 rounded-xl shadow-xl text-lg transition"
           >
             Order Now
           </a>
@@ -128,31 +176,43 @@ function App() {
       </section>
 
       {/* Menu Section */}
-      <section id="menu" className="py-20 bg-yellow-50 px-4">
+      <section id="menu" className="py-20 px-6 bg-white">
         <div className="max-w-6xl mx-auto text-center mb-12">
-          <h2 className="text-3xl md:text-5xl font-bold mb-4">Our Menu</h2>
+          <h2 className="text-3xl md:text-5xl font-extrabold mb-4 text-yellow-700">
+            Our Menu
+          </h2>
           <p className="text-lg md:text-xl text-gray-700">
-            Choose your favourite flavour of Golden Bites Chips.
+            Explore our delicious range of fresh plantain chips.
           </p>
         </div>
+
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 max-w-6xl mx-auto">
           {chipsMenu.map((chip, idx) => (
             <div
               key={idx}
-              className="bg-white rounded-xl shadow-lg p-6 flex flex-col justify-between"
+              className="bg-yellow-50 rounded-2xl shadow-lg overflow-hidden hover:scale-105 transition-transform"
             >
-              <div>
-                <h3 className="text-xl font-semibold mb-2">{chip.name}</h3>
-                <p className="text-lg font-bold mb-4">{chip.price}</p>
+              <img
+                src={chip.image}
+                alt={chip.name}
+                className="h-40 w-full object-cover"
+              />
+              <div className="p-6 text-center">
+                <h3 className="text-xl font-bold text-yellow-800 mb-2">
+                  {chip.name}
+                </h3>
+                <p className="text-lg font-bold text-gray-900 mb-4">
+                  {chip.price}
+                </p>
+                <a
+                  href={whatsappLink}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg font-semibold shadow-md"
+                >
+                  Order Now
+                </a>
               </div>
-              <a
-                href={whatsappLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold px-4 py-2 rounded-lg transition-colors"
-              >
-                Order Now
-              </a>
             </div>
           ))}
         </div>
@@ -161,58 +221,86 @@ function App() {
       {/* About Section */}
       <section
         id="about"
-        className="py-20 flex flex-col md:flex-row items-center px-4 bg-white"
+        className="py-20 flex flex-col md:flex-row items-center px-6 bg-yellow-50"
       >
-        <div className="md:w-1/2 mb-8 md:mb-0">
+        <div className="md:w-1/2 mb-10 md:mb-0">
           <img
-            src="https://cdn.pixabay.com/photo/2020/06/27/09/06/plantain-chips-5349921_1280.jpg"
+            src="https://images.unsplash.com/photo-1599785209707-fd09c63b7f61?auto=format&fit=crop&w=600"
             alt="Plantain chips"
-            className="rounded-lg shadow-lg w-full object-cover"
+            className="rounded-2xl shadow-xl w-full object-cover"
           />
         </div>
+
         <div className="md:w-1/2 md:pl-12 text-center md:text-left">
-          <h2 className="text-3xl md:text-5xl font-bold mb-6">
-            About Golden Bites Chips
+          <h2 className="text-3xl md:text-5xl font-extrabold text-yellow-700 mb-6">
+            About Us
           </h2>
-          <p className="text-lg md:text-xl mb-4">
-            Golden Bites Chips is a premium plantain chips brand. We hand‑slice our
-            plantains to ensure crispiness, and use only the freshest plantains and
-            quality ingredients.
+          <p className="text-lg md:text-xl text-gray-700 mb-4 leading-relaxed">
+            Golden Bites Chips is dedicated to delivering fresh, crispy, and tasty
+            plantain chips. Each batch is made from high‑quality plantains sourced
+            locally.
           </p>
-          <p className="text-lg md:text-xl">
-            Our mission is to bring you a snack that is not just tasty but also made
-            with care. Whether you're relaxing at home or sharing with friends,
-            Golden Bites Chips is the perfect companion.
+          <p className="text-lg md:text-xl text-gray-700 leading-relaxed">
+            Our mission is to provide a premium snacking experience for everyone —
+            anytime, anywhere.
           </p>
+        </div>
+      </section>
+
+      {/* Testimonials */}
+      <section
+        id="testimonials"
+        className="py-20 px-6 bg-yellow-100 text-center"
+      >
+        <h2 className="text-3xl md:text-5xl font-extrabold text-yellow-800 mb-10">
+          What Our Customers Say
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          {testimonials.map((t, idx) => (
+            <div
+              key={idx}
+              className="bg-white rounded-2xl shadow-lg p-6 hover:scale-105 transition-transform"
+            >
+              <img
+                src={t.image}
+                alt={t.name}
+                className="w-20 h-20 rounded-full mx-auto mb-4 object-cover"
+              />
+              <p className="text-gray-700 italic mb-2">"{t.review}"</p>
+              <h4 className="font-bold text-yellow-700">{t.name}</h4>
+            </div>
+          ))}
         </div>
       </section>
 
       {/* Contact Section */}
       <section
         id="contact"
-        className="py-20 bg-yellow-100 flex flex-col items-center px-4 text-center"
+        className="py-20 bg-yellow-50 flex flex-col items-center px-6 text-center"
       >
-        <h2 className="text-3xl md:text-5xl font-bold mb-6">Get in Touch</h2>
-        <p className="text-lg md:text-xl mb-6">
-          For orders, custom requests, or just to say hi — message us on WhatsApp!
+        <h2 className="text-3xl md:text-5xl font-extrabold text-yellow-800 mb-6">
+          Contact Us
+        </h2>
+        <p className="text-lg md:text-xl text-gray-700 mb-6">
+          Have questions or want to place an order? Chat with us on WhatsApp.
         </p>
         <a
-          href={`https://wa.me/2349073634450?text=Hello! I want to place an order for Golden Bites Chips.`}
+          href={whatsappLink}
           target="_blank"
-          rel="noopener noreferrer"
-          className="bg-green-500 hover:bg-green-600 text-white font-semibold px-6 py-3 rounded-lg transition-colors"
+          rel="noreferrer"
+          className="bg-green-600 hover:bg-green-700 text-white font-semibold px-8 py-3 rounded-xl shadow-lg text-lg transition"
         >
           Message on WhatsApp
         </a>
       </section>
 
       {/* Footer */}
-      <footer className="py-8 bg-yellow-500 text-white text-center">
-        <p className="mb-2">&copy; {new Date().getFullYear()} Golden Bites Chips</p>
-        <p>All Rights Reserved.</p>
+      <footer className="py-8 bg-yellow-700 text-white text-center">
+        <p className="mb-1 font-semibold">
+          &copy; {new Date().getFullYear()} Golden Bites Chips
+        </p>
+        <p className="text-sm tracking-wide">All Rights Reserved.</p>
       </footer>
     </div>
   );
 }
-
-export default App;
