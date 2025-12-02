@@ -1,83 +1,102 @@
 import React, { useState } from "react";
 import "./index.css";
 
+// ====== IMAGE IMPORTS ======
+import goldenLogo from "./assets/goldenbiteslogo.jpg";
+import plantainBg from "./assets/plantainbg.jpg";
+import plantainImg from "./assets/plantain.png";
+import plantain2 from "./assets/plantain2.jpg";
+import aboutImg from "./assets/about.jpg";
+import gallery1 from "./assets/plantain g1.jpg";
+import gallery2 from "./assets/plantain g2.jpg";
+import gallery3 from "./assets/plantain g3.jpg";
+import gallery4 from "./assets/plantainbg.jpg";
+
 export default function App() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [showOrderForm, setShowOrderForm] = useState(false);
+
+  const [formData, setFormData] = useState({
+    name: "",
+    phone: "",
+    product: "Classic Salted",
+    quantity: 1,
+  });
 
   const navLinks = [
     { name: "Home", href: "#home" },
     { name: "Menu", href: "#menu" },
     { name: "About", href: "#about" },
+    { name: "Gallery", href: "#gallery" },
     { name: "Testimonials", href: "#testimonials" },
     { name: "Contact", href: "#contact" },
   ];
 
   const chipsMenu = [
-    {
-      name: "Classic Salted",
-      price: "₦500",
-      image:
-        "https://images.unsplash.com/photo-1617196032774-1a15c3c1633c?auto=format&fit=crop&w=600",
-    },
-    {
-      name: "Spicy Pepper",
-      price: "₦600",
-      image:
-        "https://images.unsplash.com/photo-1614906203811-88505f30734a?auto=format&fit=crop&w=600",
-    },
-    {
-      name: "Honey Glazed",
-      price: "₦700",
-      image:
-        "https://images.unsplash.com/photo-1599785209707-fd09c63b7f61?auto=format&fit=crop&w=600",
-    },
-    {
-      name: "Cheese Flavored",
-      price: "₦650",
-      image:
-        "https://images.unsplash.com/photo-1627999831570-5c6fca0c9fd5?auto=format&fit=crop&w=600",
-    },
+    { name: "Classic Salted", price: 500, image: plantainImg },
+    { name: "Spicy Pepper", price: 600, image: plantain2 },
+    { name: "Honey Glazed", price: 700, image: plantainImg },
+    { name: "Cheese Flavored", price: 650, image: plantain2 },
   ];
 
   const testimonials = [
     {
-      name: "Amaka",
-      review:
-        "These plantain chips are insanely good! Crispy, tasty, and fresh every time.",
-      image:
-        "https://randomuser.me/api/portraits/women/44.jpg",
+      name: "Chinedu Okafor",
+      text: "Golden Bites Chips are the crispiest I've ever tasted! Highly recommend.",
+      image: plantainImg,
     },
     {
-      name: "Chinedu",
-      review:
-        "Golden Bites Chips are my favorite snack. I can't stop eating them!",
-      image:
-        "https://randomuser.me/api/portraits/men/46.jpg",
-    },
-    {
-      name: "Fatima",
-      review:
-        "I love the variety of flavors. The honey glazed chips are amazing!",
-      image:
-        "https://randomuser.me/api/portraits/women/68.jpg",
+      name: "Aisha Bello",
+      text: "The flavors are amazing! Spicy Pepper is my favorite.",
+      image: plantain2,
     },
   ];
 
-  const whatsappNumber = "2349073634450";
-  const whatsappLink = `https://wa.me/${whatsappNumber}?text=Hello! I want to place an order for Golden Bites Chips.`;
+  const galleryImages = [gallery1, gallery2, gallery3, gallery4];
+
+  // =============================
+  // 🔥 MONEY CALCULATION FUNCTION
+  // =============================
+  const getPrice = () => {
+    const selected = chipsMenu.find((chip) => chip.name === formData.product);
+    return selected ? selected.price : 0;
+  };
+
+  const totalAmount = getPrice() * formData.quantity;
+
+  const handleSubmitOrder = (e) => {
+    e.preventDefault();
+
+    const message = `Hello! I want to place an order:\n
+Name: ${formData.name}\n
+Phone: ${formData.phone}\n
+Product: ${formData.product}\n
+Unit Price: ₦${getPrice()}\n
+Quantity: ${formData.quantity}\n
+Total Amount: ₦${totalAmount}`;
+
+    const encodedMessage = encodeURIComponent(message);
+    const whatsappLink = `https://wa.me/2349073634450?text=${encodedMessage}`;
+
+    window.open(whatsappLink, "_blank");
+
+    setShowOrderForm(false);
+    setFormData({ name: "", phone: "", product: "Classic Salted", quantity: 1 });
+  };
 
   return (
     <div className="scroll-smooth font-sans bg-gray-50">
-      {/* Navbar */}
+
+      {/* NAVBAR */}
       <nav className="fixed w-full z-50 bg-yellow-600 shadow-lg">
         <div className="max-w-7xl mx-auto px-6 flex justify-between items-center h-16">
           <div className="flex items-center">
             <img
-              src="https://images.unsplash.com/photo-1623243616342-177ac6e8b1e8?auto=format&fit=crop&w=64&h=64&q=80"
+              src={goldenLogo}
               alt="Golden Bites Logo"
-              className="h-12 w-12 rounded-full mr-3 border-2 border-white"
+              className="h-12 w-12 rounded-full mr-3 border-2 border-white object-cover"
             />
-            <span className="text-white font-extrabold text-xl tracking-wide">
+            <span className="text-white font-extrabold text-xl">
               Golden Bites Chips
             </span>
           </div>
@@ -87,7 +106,7 @@ export default function App() {
               <li key={index}>
                 <a
                   href={link.href}
-                  className="text-white hover:text-yellow-200 font-semibold transition-colors"
+                  className="text-white font-semibold hover:text-yellow-200"
                 >
                   {link.name}
                 </a>
@@ -99,35 +118,7 @@ export default function App() {
             className="md:hidden text-white"
             onClick={() => setMenuOpen(!menuOpen)}
           >
-            {menuOpen ? (
-              <svg
-                className="w-7 h-7"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            ) : (
-              <svg
-                className="w-7 h-7"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              </svg>
-            )}
+            ☰
           </button>
         </div>
 
@@ -137,7 +128,7 @@ export default function App() {
               <li key={index}>
                 <a
                   href={link.href}
-                  className="block text-white font-semibold hover:text-yellow-200"
+                  className="text-white"
                   onClick={() => setMenuOpen(false)}
                 >
                   {link.name}
@@ -148,158 +139,201 @@ export default function App() {
         )}
       </nav>
 
-      {/* Hero Section */}
+      {/* HERO SECTION */}
       <section
         id="home"
-        className="h-screen bg-cover bg-center flex flex-col justify-center items-center text-center px-6"
-        style={{
-          backgroundImage:
-            "url('https://images.unsplash.com/photo-1599785209707-fd09c63b7f61?auto=format&fit=crop&w=1260&h=750&dpr=2')",
-        }}
+        className="min-h-screen bg-cover bg-center flex justify-center items-center text-center px-6 relative"
+        style={{ backgroundImage: `url(${plantainBg})` }}
       >
-        <div className="bg-black bg-opacity-60 p-10 rounded-2xl shadow-2xl max-w-2xl">
-          <h1 className="text-4xl md:text-6xl font-extrabold text-yellow-400 mb-4 drop-shadow-xl">
+        <div className="absolute inset-0 bg-black bg-opacity-40"></div>
+        <div className="relative z-10 animate-fadeIn">
+          <h1 className="text-6xl md:text-7xl font-extrabold text-yellow-300 drop-shadow-lg tracking-wide">
             Golden Bites Chips
           </h1>
-          <p className="text-lg md:text-2xl text-gray-100 mb-6 font-medium">
-            Crispy, fresh, premium plantain chips — always made with love.
+          <p className="text-xl md:text-2xl text-white mt-4 font-light drop-shadow-lg">
+            Crispy. Fresh. Made with Love.
           </p>
-          <a
-            href={whatsappLink}
-            target="_blank"
-            rel="noreferrer"
-            className="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold px-8 py-3 rounded-xl shadow-xl text-lg transition"
+          <button
+            onClick={() => setShowOrderForm(true)}
+            className="mt-8 bg-yellow-500 hover:bg-yellow-600 text-white px-10 py-4 rounded-full text-lg font-semibold shadow-lg transition-transform transform hover:scale-105"
           >
             Order Now
-          </a>
+          </button>
         </div>
       </section>
 
-      {/* Menu Section */}
-      <section id="menu" className="py-20 px-6 bg-white">
-        <div className="max-w-6xl mx-auto text-center mb-12">
-          <h2 className="text-3xl md:text-5xl font-extrabold mb-4 text-yellow-700">
-            Our Menu
-          </h2>
-          <p className="text-lg md:text-xl text-gray-700">
-            Explore our delicious range of fresh plantain chips.
-          </p>
-        </div>
-
+      {/* MENU */}
+      <section id="menu" className="py-20 px-6 bg-white text-center">
+        <h2 className="text-4xl font-extrabold text-yellow-700 mb-4">Our Menu</h2>
+        <p className="text-lg text-gray-700 mb-10">Delicious plantain chips.</p>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 max-w-6xl mx-auto">
           {chipsMenu.map((chip, idx) => (
             <div
               key={idx}
-              className="bg-yellow-50 rounded-2xl shadow-lg overflow-hidden hover:scale-105 transition-transform"
+              className="bg-yellow-50 rounded-2xl shadow-lg p-6 hover:scale-105 transition-transform"
             >
               <img
                 src={chip.image}
                 alt={chip.name}
-                className="h-40 w-full object-cover"
+                className="h-40 w-full object-cover rounded-xl mb-4"
               />
-              <div className="p-6 text-center">
-                <h3 className="text-xl font-bold text-yellow-800 mb-2">
-                  {chip.name}
-                </h3>
-                <p className="text-lg font-bold text-gray-900 mb-4">
-                  {chip.price}
-                </p>
-                <a
-                  href={whatsappLink}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg font-semibold shadow-md"
-                >
-                  Order Now
-                </a>
-              </div>
+              <h3 className="text-xl font-bold text-yellow-800">{chip.name}</h3>
+              <p className="text-lg font-bold text-gray-900 mb-4">₦{chip.price}</p>
+              <button
+                onClick={() => {
+                  setFormData({ name: "", phone: "", product: chip.name, quantity: 1 });
+                  setShowOrderForm(true);
+                }}
+                className="bg-yellow-500 text-white px-4 py-2 rounded-lg"
+              >
+                Order Now
+              </button>
             </div>
           ))}
         </div>
       </section>
 
-      {/* About Section */}
-      <section
-        id="about"
-        className="py-20 flex flex-col md:flex-row items-center px-6 bg-yellow-50"
-      >
-        <div className="md:w-1/2 mb-10 md:mb-0">
-          <img
-            src="https://images.unsplash.com/photo-1599785209707-fd09c63b7f61?auto=format&fit=crop&w=600"
-            alt="Plantain chips"
-            className="rounded-2xl shadow-xl w-full object-cover"
-          />
-        </div>
+      {/* ABOUT */}
+      <section id="about" className="py-20 bg-yellow-50 px-6">
+        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center md:items-start gap-10">
+          <div className="md:w-1/2">
+            <img
+              src={aboutImg}
+              alt="About Golden Bites Chips"
+              className="rounded-2xl shadow-lg w-full object-cover"
+            />
+          </div>
 
-        <div className="md:w-1/2 md:pl-12 text-center md:text-left">
-          <h2 className="text-3xl md:text-5xl font-extrabold text-yellow-700 mb-6">
-            About Us
-          </h2>
-          <p className="text-lg md:text-xl text-gray-700 mb-4 leading-relaxed">
-            Golden Bites Chips is dedicated to delivering fresh, crispy, and tasty
-            plantain chips. Each batch is made from high‑quality plantains sourced
-            locally.
-          </p>
-          <p className="text-lg md:text-xl text-gray-700 leading-relaxed">
-            Our mission is to provide a premium snacking experience for everyone —
-            anytime, anywhere.
-          </p>
+          <div className="md:w-1/2">
+            <h2 className="text-4xl font-extrabold text-yellow-700 mb-6">About Us</h2>
+            <p className="text-lg text-gray-700 mb-4">
+              Golden Bites Chips is dedicated to bringing you the crispiest, freshest, and most flavorful plantain chips.
+            </p>
+            <p className="text-lg text-gray-700 mb-4">
+              From classic salted to spicy pepper, each flavor is carefully crafted to delight your taste buds.
+            </p>
+          </div>
         </div>
       </section>
 
-      {/* Testimonials */}
-      <section
-        id="testimonials"
-        className="py-20 px-6 bg-yellow-100 text-center"
-      >
-        <h2 className="text-3xl md:text-5xl font-extrabold text-yellow-800 mb-10">
-          What Our Customers Say
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+      {/* GALLERY */}
+      <section id="gallery" className="py-20 bg-white px-6 text-center">
+        <h2 className="text-4xl font-extrabold text-yellow-700 mb-10">Gallery & Special Offers</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 max-w-6xl mx-auto">
+          {galleryImages.map((img, idx) => (
+            <div key={idx} className="rounded-2xl overflow-hidden shadow-lg hover:scale-105 transition-transform">
+              <img src={img} alt={`Gallery ${idx}`} className="w-full h-48 object-cover" />
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* TESTIMONIALS */}
+      <section id="testimonials" className="py-20 bg-yellow-50 text-center px-6">
+        <h2 className="text-4xl font-extrabold text-yellow-700 mb-10">Testimonials</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
           {testimonials.map((t, idx) => (
-            <div
-              key={idx}
-              className="bg-white rounded-2xl shadow-lg p-6 hover:scale-105 transition-transform"
-            >
+            <div key={idx} className="bg-yellow-100 p-6 rounded-2xl shadow-lg">
               <img
                 src={t.image}
                 alt={t.name}
-                className="w-20 h-20 rounded-full mx-auto mb-4 object-cover"
+                className="h-24 w-24 rounded-full mx-auto mb-4 object-cover border-2 border-yellow-400"
               />
-              <p className="text-gray-700 italic mb-2">"{t.review}"</p>
-              <h4 className="font-bold text-yellow-700">{t.name}</h4>
+              <p className="text-gray-800 italic mb-2">"{t.text}"</p>
+              <h4 className="font-bold text-yellow-800">{t.name}</h4>
             </div>
           ))}
         </div>
       </section>
 
-      {/* Contact Section */}
-      <section
-        id="contact"
-        className="py-20 bg-yellow-50 flex flex-col items-center px-6 text-center"
-      >
-        <h2 className="text-3xl md:text-5xl font-extrabold text-yellow-800 mb-6">
-          Contact Us
-        </h2>
-        <p className="text-lg md:text-xl text-gray-700 mb-6">
-          Have questions or want to place an order? Chat with us on WhatsApp.
-        </p>
+      {/* CONTACT */}
+      <section id="contact" className="py-20 bg-yellow-100 text-center px-6">
+        <h2 className="text-4xl font-extrabold text-yellow-800 mb-6">Contact Us</h2>
         <a
-          href={whatsappLink}
-          target="_blank"
-          rel="noreferrer"
-          className="bg-green-600 hover:bg-green-700 text-white font-semibold px-8 py-3 rounded-xl shadow-lg text-lg transition"
+          href="https://wa.me/2349073634450"
+          className="bg-green-600 text-white px-8 py-3 rounded-xl text-lg"
         >
           Message on WhatsApp
         </a>
       </section>
 
-      {/* Footer */}
-      <footer className="py-8 bg-yellow-700 text-white text-center">
-        <p className="mb-1 font-semibold">
-          &copy; {new Date().getFullYear()} Golden Bites Chips
-        </p>
-        <p className="text-sm tracking-wide">All Rights Reserved.</p>
+      {/* ORDER FORM MODAL */}
+      {showOrderForm && (
+        <div className="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center p-4 z-50">
+          <div className="bg-white p-6 rounded-xl shadow-lg w-full max-w-md max-h-[90vh] overflow-auto">
+            <h2 className="text-2xl font-bold mb-4">Place Your Order</h2>
+
+            <form onSubmit={handleSubmitOrder}>
+              <input
+                required
+                type="text"
+                placeholder="Your Name"
+                className="w-full p-3 mb-3 border rounded"
+                value={formData.name}
+                onChange={(e) =>
+                  setFormData({ ...formData, name: e.target.value })
+                }
+              />
+
+              <input
+                required
+                type="tel"
+                placeholder="Phone Number"
+                className="w-full p-3 mb-3 border rounded"
+                value={formData.phone}
+                onChange={(e) =>
+                  setFormData({ ...formData, phone: e.target.value })
+                }
+              />
+
+              <label className="block text-left font-semibold mb-1">Product</label>
+              <select
+                className="w-full p-3 mb-3 border rounded"
+                value={formData.product}
+                onChange={(e) =>
+                  setFormData({ ...formData, product: e.target.value })
+                }
+              >
+                {chipsMenu.map((chip) => (
+                  <option key={chip.name}>{chip.name}</option>
+                ))}
+              </select>
+
+              <label className="block text-left font-semibold mb-1">Quantity</label>
+              <input
+                required
+                type="number"
+                min="1"
+                className="w-full p-3 mb-3 border rounded"
+                value={formData.quantity}
+                onChange={(e) =>
+                  setFormData({ ...formData, quantity: Number(e.target.value) })
+                }
+              />
+
+              {/* TOTAL MONEY DISPLAY */}
+              <div className="p-3 mb-3 bg-yellow-100 rounded text-center font-bold text-lg">
+                Total: ₦{totalAmount}
+              </div>
+
+              <button className="bg-yellow-600 text-white px-6 py-3 rounded-lg w-full mt-3">
+                Send Order to WhatsApp
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setShowOrderForm(false)}
+                className="mt-3 w-full bg-gray-300 py-3 rounded-lg"
+              >
+                Cancel
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+
+      <footer className="py-8 bg-yellow-700 text-white text-center mt-20">
+        <p className="font-semibold">© {new Date().getFullYear()} Golden Bites Chips</p>
       </footer>
     </div>
   );
